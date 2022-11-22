@@ -1,0 +1,73 @@
+.slider-container{
+  position: relative;
+  height: 100%;
+  margin: 0 10px;
+}
+
+.slider-container .hotel-container-img{
+  position: absolute;
+}
+
+.slide {
+    opacity: 0;
+    transition: opacity ease-in-out 0.4s;
+}
+ 
+.active-anim {
+  opacity: 1;
+}
+
+.btn-slide {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  border: 1px solid rgba(34, 34, 34, 0.287);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 3s linear;
+}
+
+.btn-slide img {
+  width: 25px;
+  height: 25px;
+  pointer-events: none;
+}
+
+.prev {
+  top: 50%;
+  left: 20px;
+  transform: translateY(-60%);
+}
+.next {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-60%);
+}
+
+
+.container-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin: 0 5px;
+  background: #d6d5d5;
+}
+.dot.active {
+  background: #f1f1f1;
+  transform: scale(1.3);
+}
+
+.hotel-item-left:hover .btn-slide{
+  display: flex;
+}

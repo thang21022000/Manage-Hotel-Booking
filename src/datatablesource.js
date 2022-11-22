@@ -1,3 +1,4 @@
+import {format} from "date-fns";
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -7,7 +8,7 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
+          <img className="cellImg" src={params.row.image || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"} alt="avatar" />
           {params.row.username}
         </div>
       );
@@ -20,104 +21,126 @@ export const userColumns = [
   },
 
   {
-    field: "age",
-    headerName: "Age",
+    field: "city",
+    headerName: "City",
     width: 100,
   },
   {
-    field: "status",
-    headerName: "Status",
+    field: "phone",
+    headerName: "Phone",
     width: 160,
+  },
+];
+
+export const hotelsColumns = [
+  { field: "_id", headerName: "ID", width: 230 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 330,
+  },
+  {
+    field: "type",
+    headerName: "Type",
+    width: 100,
+  },
+
+  {
+    field: "city",
+    headerName: "City",
+    width: 200,
+  },
+];
+
+export const roomsColumns = [
+  { field: "_id", headerName: "ID", width: 230 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 250,
+  },
+  {
+    field: "desc",
+    headerName: "desc",
+    width: 200,
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    width: 150,
+  }
+];
+
+export const OrderColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+  {
+    field: "user",
+    headerName: "Guest",
+    width: 200,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
+        <div>
+          {params.row.user 
+          ?  <span>{params.row.user.fullname}</span>
+          : ""}
+         
         </div>
       );
     },
   },
-];
-
-//temporary data
-export const userRows = [
   {
-    id: 1,
-    username: "Snow",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-    email: "1snow@gmail.com",
-    age: 35,
+    field: "hotel",
+    headerName: "Hotel",
+    width: 250,
+    renderCell: (params) => {
+      return (
+        <div>
+          {params.row.hotel 
+          ?  <span>{params.row.hotel.name}</span>
+          : ""}
+         
+        </div>
+      );
+    },
   },
   {
-    id: 2,
-    username: "Jamie Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "2snow@gmail.com",
-    status: "passive",
-    age: 42,
+    field: "checkIn",
+    headerName: "Come",
+    width: 120,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithStatus">
+          {params.row.checkIn 
+          ? <span>{`${format(new Date(params.row.checkIn), 'dd/MM/yyyy')}`}</span>
+          : ""}
+        </div>
+      );
+    },
   },
   {
-    id: 3,
-    username: "Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "3snow@gmail.com",
-    status: "pending",
-    age: 45,
+    field: "checkOut",
+    headerName: "Leave",
+    width: 120,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithStatus">
+          {params.row.checkOut
+          ? <span>{`${format(new Date(params.row.checkOut), 'dd/MM/yyyy')}`}</span>
+          : ""}
+        </div>
+      );
+    },
   },
   {
-    id: 4,
-    username: "Stark",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "4snow@gmail.com",
-    status: "active",
-    age: 16,
-  },
-  {
-    id: 5,
-    username: "Targaryen",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "5snow@gmail.com",
-    status: "passive",
-    age: 22,
-  },
-  {
-    id: 6,
-    username: "Melisandre",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "6snow@gmail.com",
-    status: "active",
-    age: 15,
-  },
-  {
-    id: 7,
-    username: "Clifford",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "7snow@gmail.com",
-    status: "passive",
-    age: 44,
-  },
-  {
-    id: 8,
-    username: "Frances",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "8snow@gmail.com",
-    status: "active",
-    age: 36,
-  },
-  {
-    id: 9,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "pending",
-    age: 65,
-  },
-  {
-    id: 10,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "active",
-    age: 65,
+    field: "status",
+    headerName: "Status",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithStatus">
+          <span className={`cellWithStatus ${params.row.status}`}>{params.row.status}</span>
+        </div>
+      );
+    },
   },
 ];

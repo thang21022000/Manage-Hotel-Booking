@@ -1,44 +1,65 @@
-import "./new.scss";
+import "./updateuser.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios  from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useFetch from "../../hook/useFetch";
 
 
-const New = ({ inputs, title }) => {
+const UpdateUser = ({ inputs, title }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
-  console.log(info)
+  const [infoUpdate, setInfoUpdate] = useState({})
+
+  const location = useLocation();
+  const userId = location.pathname.split("/")[3];
+  const { data } = useFetch(`/users/${userId}`);
+
+  console.log(infoUpdate)
+  useEffect(() => {
+    setInfo(data);
+  }, [data])
+  
   const HandleOnchange = (e) => {
-    setInfo((prev) => {
+    setInfoUpdate((prev) => {
       return {...prev, [e.target.id]: e.target.value}
     })
   }
-  console.log("info", info)
-  
+
+
   const HandleOnclick = async (e) => {
     e.preventDefault();
-    
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset","upload");
+    if(file !== "") {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset","upload");
 
-    try {
-      const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbwpsbsg6/image/upload", data);
-      
-      // destructure
-      const {url} = resUpload.data
-      const newUser = {...info, image: url}
+      try {
+        const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbwpsbsg6/image/upload", data);
+        
+        // destructure
+        const {url} = resUpload.data
+        const newUser = {...infoUpdate, image: url}
 
-      await axios.post("/auth/register", newUser);
-      navigate("/users");
-      
-    }catch(err) { 
-      console.log(err);
+        await axios.put(`/users/${userId}`, newUser);
+        navigate("/users");
+        
+      }catch(err) { 
+        console.log(err);
+      }
+    } else {
+      try {        
+        await axios.put(`/users/${userId}`, infoUpdate);
+        navigate("/users");
+        
+      }catch(err) { 
+        console.log(err);
+      }
     }
+    
   }
 
   return (
@@ -55,7 +76,7 @@ const New = ({ inputs, title }) => {
               src={
                 file
                   ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                  : info.image
               }
               alt=""
             />
@@ -77,7 +98,7 @@ const New = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} onChange={(e) => HandleOnchange(e)} id={input.id}/>
+                  <input type={input.type} placeholder={input.placeholder} defaultValue={info ? info[input.id] : ""} onChange={(e) => HandleOnchange(e)} id={input.id}/>
                 </div>
               ))}
               <button onClick={HandleOnclick}>Send</button>
@@ -89,4 +110,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default UpdateUser;

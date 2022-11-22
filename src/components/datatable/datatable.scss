@@ -39,8 +39,9 @@
   .cellWithStatus {
     padding: 5px;
     border-radius: 5px;
+    text-transform: uppercase;
 
-    &.active {
+    &.paid {
       background-color: rgba(0, 128, 0, 0.05);
       color: green;
     }
@@ -48,7 +49,7 @@
       background-color: rgba(255, 217, 0, 0.05);
       color: goldenrod;
     }
-    &.passive {
+    &.wrong {
       background-color: rgba(255, 0, 0, 0.05);
       color: crimson;
     }
